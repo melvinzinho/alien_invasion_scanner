@@ -58,7 +58,7 @@ def view_log():
     with open("alien_invasion_scanner\log.txt", "r") as file:
         log = file.readlines()
         for s in range(len(log)):
-            print(log[s])
+            print(f"{s+1}. {log[s]}")
 
 
 def scan_signals(number_new_signals):
