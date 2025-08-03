@@ -20,6 +20,27 @@ def print_intro():
     )
 
 
+def print_alien():
+    print(
+        f"""
+     o            o
+      \          /
+       \        /
+        :-'""'-:
+     .-'  ____  `-.
+    ( (  (_()_)  ) )
+     `-.   ^^   .-'
+        `._==_.'
+         __)(___                                                                                                            
+"""
+    )
+
+
+# TODO: Handle cases where the user enters non-numeric input
+def ask_user_for_amount_of_signals():
+    return int(input("2️⃣  How many signals would you like to scan: "))
+
+
 def scan_signals(number_new_signals):
     new_signals = []
 
@@ -31,20 +52,56 @@ def scan_signals(number_new_signals):
 
 
 def check_signals(signals_to_check):
-    found_signal = []
-    for signal in range(len(signals_to_check)):
-        print(f"Checking signal number: '{signal}'...")
 
-        if signals_to_check[signal] > 5:
-            found_signal.append(signals_to_check[signal])
-            print("\nAlert! Strong signal detected 👾\n")
+    user_choice_2 = (
+        input(
+            "3️⃣  Would you like to scan signals now? Type 'Yes' to scan or 'No' to skip: "
+        )
+        .strip()
+        .capitalize()
+    )
+    if user_choice_2 == "Yes":
+        print("")
 
-    return found_signal
+        for signal in range(len(signals_to_check)):
+            print(f"🔍 Scanning signal {signal}... no alien activity detected.")
+
+            if signals_to_check[signal] > 5:
+                alerts.append(signals_to_check[signal])
+                print("\n👽 Alert! Strong signal detected 👾\n")
+
+            if len(alerts) > 3:
+                print("************************")
+                print("🚨🚨 ALIEN FOUND!!! 🚨🚨")
+                print("************************")
+                print_alien()
+                break
+
+    elif user_choice_2 == "No":
+        print("⛔ Skipping signal scan for now.")
+
+    else:
+        print("❌ Invalid Input.")
 
 
-signals = scan_signals(5)
-print(signals)
+print_intro()
 
-strong_signals = check_signals(signals)
+while True:
+    user_choice = (
+        input("\n1️⃣  Would you like to play? Type: 'Yes' to play or 'No' to not play: ")
+        .strip()
+        .capitalize()
+    )
 
-print(strong_signals)
+    if user_choice == "Yes":
+        number_of_signals_to_scan = ask_user_for_amount_of_signals()
+        list_signal = scan_signals(number_of_signals_to_scan)
+        check_signals(list_signal)
+
+    elif user_choice == "No":
+        print("👽 Transmission ended. Goodbye, Commander!")
+        break
+
+    else:
+        print("❌  Invalid Input. \n")
+        continue
