@@ -1,8 +1,5 @@
 import random
-
-alerts = []  # Empty list for decoded ones
-
-# IDEA: add a function to save when user found alien and register time of this and provide option of user to view log
+import time
 
 
 def print_intro():
@@ -38,9 +35,30 @@ def print_alien():
     )
 
 
-# TODO: Handle cases where the user enters non-numeric input
 def ask_user_for_amount_of_signals():
-    return int(input("2️⃣  How many signals would you like to scan: "))
+    while True:
+        number = input("2️⃣  How many signals would you like to scan: ")
+        if number.isdigit():
+            return int(number)
+        else:
+            print("❌ Invalid Input.\n")
+
+
+def save():
+    current_time = time.time()
+
+    with open("alien_invasion_scanner\log.txt", "a") as file:
+        file.writelines(f"Alien found at {str(time.ctime(current_time))}\n")
+    print("Anomaly of alien logged successfully!")
+
+
+def view_log():
+    log = []
+
+    with open("alien_invasion_scanner\log.txt", "r") as file:
+        log = file.readlines()
+        for s in range(len(log)):
+            print(log[s])
 
 
 def scan_signals(number_new_signals):
@@ -54,6 +72,7 @@ def scan_signals(number_new_signals):
 
 
 def check_signals(signals_to_check):
+    alerts = []  # Empty list for decoded ones
 
     user_choice_2 = (
         input(
@@ -77,20 +96,23 @@ def check_signals(signals_to_check):
                 print("🚨🚨 ALIEN FOUND!!! 🚨🚨")
                 print("************************")
                 print_alien()
-                break
+                return True
 
     elif user_choice_2 == "No":
-        print("⛔ Skipping signal scan for now.")
+        print("⛔ Skipping signal scan for now.\n")
 
     else:
-        print("❌ Invalid Input.")
+        print("❌ Invalid Input.\n")
 
 
 print_intro()
 
 while True:
+
     user_choice = (
-        input("\n1️⃣  Would you like to play? Type: 'Yes' to play or 'No' to not play: ")
+        input(
+            "\n1️⃣  Would you like to play? Type: 'Yes' to play or 'No' to not play or 'Log' to view log: "
+        )
         .strip()
         .capitalize()
     )
@@ -98,11 +120,20 @@ while True:
     if user_choice == "Yes":
         number_of_signals_to_scan = ask_user_for_amount_of_signals()
         list_signal = scan_signals(number_of_signals_to_scan)
-        check_signals(list_signal)
+        alien = check_signals(list_signal)
+
+        if alien == True:
+            save()
+        else:
+            continue
 
     elif user_choice == "No":
         print("👽 Transmission ended. Goodbye, Commander!")
         break
+
+    elif user_choice == "Log":
+        print("")
+        view_log()
 
     else:
         print("❌  Invalid Input. \n")
