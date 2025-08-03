@@ -2,6 +2,8 @@ import random
 
 alerts = []  # Empty list for decoded ones
 
+# IDEA: add a function to save when user found alien and register time of this and provide option of user to view log
+
 
 def print_intro():
     print(
