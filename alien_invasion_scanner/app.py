@@ -1,6 +1,5 @@
 import random
 
-signals = []  # List of alien signals
 alerts = []  # Empty list for decoded ones
 
 
@@ -21,21 +20,31 @@ def print_intro():
     )
 
 
-def scan_signals(number_signal):
-    for signal in range(number_signal):
+def scan_signals(number_new_signals):
+    new_signals = []
+
+    for signal in range(number_new_signals):
         signal = random.randint(0, 10)
-        signals.append(signal)
+        new_signals.append(signal)
+
+    return new_signals
 
 
-def check_signals():
-    for signal in signals:  # Loop through each
-        if signal > 5:  # Conditional check
-            alerts.append(signal)
-            print("Alert! Strong signal detected 👾")
+def check_signals(signals_to_check):
+    found_signal = []
+    for signal in range(len(signals_to_check)):
+        print(f"Checking signal number: '{signal}'...")
+
+        if signals_to_check[signal] > 5:
+            found_signal.append(signals_to_check[signal])
+            print("\nAlert! Strong signal detected 👾\n")
+
+    return found_signal
 
 
-while len(alerts) < 3:  # While loop for more scans
-    new_signal = int(input("How many scans would you like? Enter number: "))
-    scan_signals(int(new_signal))
-    print("checking...")
-    check_signals()
+signals = scan_signals(5)
+print(signals)
+
+strong_signals = check_signals(signals)
+
+print(strong_signals)
